@@ -4,10 +4,12 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
 	private Animator animator;
+	private GameObject mainCamera;
 
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator> ();
+		mainCamera = GameObject.Find ("Main Camera (origin)");
 	}
 	
 	// Update is called once per frame
@@ -48,6 +50,11 @@ public class PlayerManager : MonoBehaviour {
 		while (elapsedTime < seconds)
 		{
 			objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+			mainCamera.transform.position = new Vector3 (
+				objectToMove.transform.position.x,
+				objectToMove.transform.position.y,
+				objectToMove.transform.position.z - 2f
+			);
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame();
 		}
